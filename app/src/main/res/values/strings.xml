@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">P2PVoice</string>
+    <string name="title_activity_pointer">PointerActivity</string>
+</resources>

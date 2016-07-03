@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="My Pointer"/>
+
+    <RadioGroup
+        android:id="@+id/radio_group"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <RadioButton
+            android:id="@+id/f8k_radiobutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="8K">
+
+        </RadioButton>
+
+        <RadioButton
+            android:id="@+id/f16k_radiobutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:checked="false"
+            android:text="16K">
+
+        </RadioButton>
+
+        <RadioButton
+            android:id="@+id/f44k_radiobutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:text="44.1K">
+
+        </RadioButton>
+
+    </RadioGroup>
+
+    <Switch
+        android:id="@+id/switch_send_record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:text="打开本地录音文件保存" />
+    <EditText
+        android:id="@+id/ip_edittext"
+        android:layout_width="200dp"
+        android:hint="请输入对端IP地址"
+        android:layout_height="wrap_content" />
+
+    <Switch
+        android:id="@+id/switch_received_record"
+        android:layout_width="wrap_content"
+        android:padding="20dp"
+        android:layout_height="wrap_content"
+        android:text="打开接收录音文件保存" />
+</LinearLayout>
