@@ -5,7 +5,16 @@ package com.hubin.android.p2pvoice.mvp.view;
  */
 public interface IPointerView {
 
-    String getPointerIp();
+    String getRemotePointerIp();
+    int getRemotePointerPort();
+
+    int getAudioBufferSize();
+
+    int getAudioSampleRate();
+
+    boolean isSaveReceivedAudio();
+
+    boolean isSaveSentAudio();
 
 
 }

@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.hubin.android.p2pvoice.mvp.view.PointerActivity;
 import com.hubin.android.p2pvoice.utils.BytesTransUtil;
+import com.hubin.android.p2pvoice.utils.UiConstants;
 
 import java.io.BufferedOutputStream;
 import java.io.DataOutputStream;
@@ -46,13 +47,17 @@ public class UDPSendThread implements Runnable
 
     private int sendDataSize = -1;
     private File audioFile;
+    private int sampleRate;
+    private int remotePort;
 
-    public UDPSendThread(DatagramSocket datagramSocket, File audioFile)
+    public UDPSendThread(DatagramSocket datagramSocket, File audioFile, int remotePort, int sampleRate)
     {
         this.sendUdp = datagramSocket;
         this.audioFile = audioFile;
+        this.sampleRate = sampleRate;
+        this.remotePort = remotePort;
         // 根据定义好的几个配置，来获取合适的缓冲大小
-        bufferSize = AudioRecord.getMinBufferSize(PointerActivity.frequence, PointerActivity.channelConfig, PointerActivity.audioEncoding);
+        bufferSize = AudioRecord.getMinBufferSize(sampleRate, UiConstants.AUDIO_CHANNEL, UiConstants.AUDIO_FORMAT);
         sendData = new byte[bufferSize];
     }
 
@@ -109,12 +114,12 @@ public class UDPSendThread implements Runnable
         {
             DataOutputStream dos = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(audioFile)));
             // 实例化AudioRecord
-            AudioRecord record = new AudioRecord(MediaRecorder.AudioSource.MIC, PointerActivity.frequence, PointerActivity.channelConfig, PointerActivity.audioEncoding,
+            AudioRecord record = new AudioRecord(MediaRecorder.AudioSource.MIC, sampleRate, UiConstants.AUDIO_CHANNEL, UiConstants.AUDIO_FORMAT,
                     bufferSize);
             // 定义缓冲
             byte[] bufferSend = new byte[sendDataSize * 2];
             InetAddress receivedAddress = InetAddress.getByName(receivedIP);
-            sendPacket = new DatagramPacket(bufferSend, bufferSend.length, receivedAddress, PointerActivity.PORT);
+            sendPacket = new DatagramPacket(bufferSend, bufferSend.length, receivedAddress, remotePort);
             short[] buffer = new short[sendDataSize];
             // 开始录制
             record.startRecording();

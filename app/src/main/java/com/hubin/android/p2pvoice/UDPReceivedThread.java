@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.hubin.android.p2pvoice.mvp.view.PointerActivity;
 import com.hubin.android.p2pvoice.utils.BytesTransUtil;
+import com.hubin.android.p2pvoice.utils.UiConstants;
 
 import java.io.BufferedOutputStream;
 import java.io.DataOutputStream;
@@ -39,11 +40,15 @@ public class UDPReceivedThread implements Runnable
     private int bufferSize = -1;
     private File recAudioFile;
     private int receiveDataSize;
+    private int sampleRate;
+    private int remotePort;
 
-    public UDPReceivedThread(DatagramSocket datagramSocket, File recAudioFile)
+    public UDPReceivedThread(DatagramSocket datagramSocket, File recAudioFile, int remotePort, int sampleRate)
     {
         this.receivedUdp = datagramSocket;
         this.recAudioFile = recAudioFile;
+        this.sampleRate = sampleRate;
+        this.remotePort = remotePort;
     }
 
     public void setReceiveDataSize(int receiveDataSize)
@@ -94,9 +99,9 @@ public class UDPReceivedThread implements Runnable
         try
         {
             DataOutputStream dos = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(recAudioFile)));
-            bufferSize = AudioTrack.getMinBufferSize(PointerActivity.frequence, PointerActivity.channelConfig, PointerActivity.audioEncoding);
+            bufferSize = AudioTrack.getMinBufferSize(sampleRate, UiConstants.AUDIO_CHANNEL, UiConstants.AUDIO_FORMAT);
             // 实例AudioTrack
-            AudioTrack track = new AudioTrack(AudioManager.STREAM_MUSIC, PointerActivity.frequence, PointerActivity.channelConfig, PointerActivity.audioEncoding,
+            AudioTrack track = new AudioTrack(AudioManager.STREAM_MUSIC, sampleRate, UiConstants.AUDIO_CHANNEL, UiConstants.AUDIO_FORMAT,
                     bufferSize, AudioTrack.MODE_STREAM);
             short[] bufferR = new short[receiveDataSize];
             receivedData = new byte[receiveDataSize * 2];
