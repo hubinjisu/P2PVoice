@@ -38,6 +38,7 @@ public class SettingActivity extends Activity {
         frequence8K = (RadioButton) findViewById(R.id.f8k_radiobutton);
         frequence16K = (RadioButton) findViewById(R.id.f16k_radiobutton);
         frequence44K = (RadioButton) findViewById(R.id.f44k_radiobutton);
+        setListener();
     }
 
     private void setListener() {
@@ -76,5 +77,12 @@ public class SettingActivity extends Activity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        preferences.edit().putString(UiConstants.REMOTE_POINTER_IP, ipEditText.getText().toString());
+        preferences.edit().commit();
     }
 }

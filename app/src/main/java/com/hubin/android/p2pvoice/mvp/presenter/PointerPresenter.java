@@ -51,17 +51,25 @@ public class PointerPresenter {
     }
 
     private void initAudioSaveFile() {
-        File saveFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/T30AudioRecord/");
-        saveFile.delete();
-        if (!saveFile.exists()) {
-            saveFile.mkdirs();
-        }
+        Log.i(TAG, "initAudioSaveFile: ");
+        File saveFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/T30AudioRecord");
         try {
-            sendAudioFile = File.createTempFile(UiConstants.FILE_NAME_SEND_AUDIO, ".pcm", saveFile);
-            recAudioFile = File.createTempFile(UiConstants.FILE_NAME_RECEIVE_AUDIO, ".pcm", saveFile);
-        } catch (IOException e) {
-            Log.e(TAG, e.toString());
+//            saveFile.delete();
+            if (!saveFile.exists()) {
+                Log.i(TAG, "initAudioSaveFile: mkdirs");
+                saveFile.mkdirs();
+            }
+            sendAudioFile = new File(saveFile, UiConstants.FILE_NAME_SEND_AUDIO+".pcm");
+            recAudioFile = new File(saveFile, UiConstants.FILE_NAME_RECEIVE_AUDIO+".pcm");
+//            sendAudioFile = File.createTempFile(UiConstants.FILE_NAME_SEND_AUDIO, ".pcm", saveFile);
+//            recAudioFile = File.createTempFile(UiConstants.FILE_NAME_RECEIVE_AUDIO, ".pcm", saveFile);
         }
+        catch (Exception e)
+        {
+            Log.e(TAG, "initAudioSaveFile:"+e.toString());
+        }
+
+        Log.i(TAG, "initAudioSaveFile: create files");
     }
 
     private void initSocket() {
