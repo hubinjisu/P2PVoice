@@ -3,7 +3,6 @@ package com.hubin.android.p2pvoice.mvp.view;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,14 +12,8 @@ import android.view.View;
 import android.widget.Button;
 
 import com.hubin.android.p2pvoice.R;
-import com.hubin.android.p2pvoice.UDPReceivedThread;
-import com.hubin.android.p2pvoice.UDPSendThread;
 import com.hubin.android.p2pvoice.mvp.presenter.PointerPresenter;
 import com.hubin.android.p2pvoice.utils.UiConstants;
-
-import java.io.File;
-import java.io.IOException;
-import java.net.DatagramSocket;
 
 public class PointerActivity extends AppCompatActivity implements IPointerView, View.OnClickListener{
     private static final String TAG = "PointerActivity";

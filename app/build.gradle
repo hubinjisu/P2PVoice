@@ -6,8 +6,8 @@ android {
 
     defaultConfig {
         applicationId "com.hubin.android.p2pvoice"
-        minSdkVersion 22
-        targetSdkVersion 24
+        minSdkVersion 15
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
     }
