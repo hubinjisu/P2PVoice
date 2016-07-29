@@ -9,8 +9,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.hubin.android.p2pvoice.mvp.view.PointerActivity"
-    android:orientation="vertical"
+    tools:context=".ui.pointer.PointerActivity"
     tools:showIn="@layout/activity_pointer">
     <Button
         android:id="@+id/play_button"

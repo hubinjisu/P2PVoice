@@ -5,7 +5,6 @@ import android.media.AudioTrack;
 import android.util.Log;
 
 
-import com.hubin.android.p2pvoice.mvp.view.PointerActivity;
 import com.hubin.android.p2pvoice.utils.BytesTransUtil;
 import com.hubin.android.p2pvoice.utils.UiConstants;
 
