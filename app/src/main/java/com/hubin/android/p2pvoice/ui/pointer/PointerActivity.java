@@ -1,21 +1,20 @@
-package com.hubin.android.p2pvoice.mvp.view;
+package com.hubin.android.p2pvoice.ui.pointer;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toolbar;
 
 import com.hubin.android.p2pvoice.R;
-import com.hubin.android.p2pvoice.mvp.presenter.PointerPresenter;
+import com.hubin.android.p2pvoice.ui.setting.SettingActivity;
 import com.hubin.android.p2pvoice.utils.UiConstants;
 
-public class PointerActivity extends AppCompatActivity implements IPointerView, View.OnClickListener{
+public class PointerActivity extends AppCompatActivity implements PointerContract.IPointerView, View.OnClickListener{
     private static final String TAG = "PointerActivity";
     private Button startSendButton, stopSendButton, startReceButton, stopReceButton, stopUDPButton;
     private Button playButton, finishButton, playRecButton, finishRecButton;
