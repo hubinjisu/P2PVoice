@@ -9,6 +9,7 @@ public class UiConstants {
     public static final String FILE_NAME_SEND_AUDIO = "sendrecording";
     public static final String FILE_NAME_RECEIVE_AUDIO = "recrecording";
 
+    public static final String DEFAULT_REMOTE_POINTER_IP = "127.0.0.1";
     public static final int DEFAULT_AUDIO_PORT = 9005;
     public static final int DEFAULT_AUDIO_SAMPLE_RATE = 16000;
     public static final int DEFAULT_AUDIO_BUFFER_SIZE = 320;

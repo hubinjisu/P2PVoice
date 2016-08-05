@@ -1,4 +1,4 @@
-package com.hubin.android.p2pvoice;
+package com.hubin.android.p2pvoice.api.impl;
 
 import android.media.AudioRecord;
 import android.media.MediaRecorder;

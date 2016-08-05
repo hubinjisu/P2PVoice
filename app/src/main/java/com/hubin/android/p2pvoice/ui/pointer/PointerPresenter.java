@@ -8,8 +8,8 @@ import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
 
-import com.hubin.android.p2pvoice.UDPReceivedThread;
-import com.hubin.android.p2pvoice.UDPSendThread;
+import com.hubin.android.p2pvoice.api.impl.UDPReceivedThread;
+import com.hubin.android.p2pvoice.api.impl.UDPSendThread;
 import com.hubin.android.p2pvoice.api.impl.P2pVoiceServiceImpl;
 import com.hubin.android.p2pvoice.api.itf.IP2pVoiceService;
 import com.hubin.android.p2pvoice.utils.UiConstants;
@@ -167,6 +167,16 @@ public class PointerPresenter implements PointerContract.IPointerPresenter{
     @Override
     public void start() {
 
+    }
+
+    @Override
+    public void release()
+    {
+        stopPlaySavedRecievedAudio();
+        stopPlaySavedSentAudio();
+        stopReceiveAudioData();
+        stopSendAudioData();
+        stopSocket();
     }
 
     /**

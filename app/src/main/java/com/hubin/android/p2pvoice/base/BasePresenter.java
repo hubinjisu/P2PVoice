@@ -8,4 +8,5 @@ import android.content.Context;
  */
 public interface BasePresenter<T extends IBaseView>  {
     void start();
+    void release();
 }

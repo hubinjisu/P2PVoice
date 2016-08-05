@@ -4,17 +4,19 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toolbar;
 
 import com.hubin.android.p2pvoice.R;
 import com.hubin.android.p2pvoice.ui.setting.SettingActivity;
 import com.hubin.android.p2pvoice.utils.UiConstants;
 
-public class PointerActivity extends AppCompatActivity implements PointerContract.IPointerView, View.OnClickListener{
+public class PointerActivity extends AppCompatActivity implements PointerContract.IPointerView, View.OnClickListener
+{
     private static final String TAG = "PointerActivity";
     private Button startSendButton, stopSendButton, startReceButton, stopReceButton, stopUDPButton;
     private Button playButton, finishButton, playRecButton, finishRecButton;
@@ -23,7 +25,8 @@ public class PointerActivity extends AppCompatActivity implements PointerContrac
     private PointerPresenter presenter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pointer);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -37,7 +40,8 @@ public class PointerActivity extends AppCompatActivity implements PointerContrac
     /**
      * 初始化View
      */
-    private void initView() {
+    private void initView()
+    {
         playButton = (Button) findViewById(R.id.play_button);
         finishButton = (Button) findViewById(R.id.finish_button);
         playRecButton = (Button) findViewById(R.id.play_rec_button);
@@ -50,17 +54,19 @@ public class PointerActivity extends AppCompatActivity implements PointerContrac
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        toolbar.setTitle("Title");//设置主标题
+        toolbar.setTitle("P2P");//设置主标题
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));//设置主标题颜色
 
         toolbar.inflateMenu(R.menu.tool_bar_menu);//设置右上角的填充菜单
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener()
+        {
             @Override
-            public boolean onMenuItemClick(MenuItem item) {
+            public boolean onMenuItemClick(MenuItem item)
+            {
                 int menuItemId = item.getItemId();
-                if (menuItemId == R.id.action_item1) {
+                if (menuItemId == R.id.action_item1)
+                {
                     startActivity(new Intent(PointerActivity.this, SettingActivity.class));
-
                 }
                 return true;
             }
@@ -68,37 +74,44 @@ public class PointerActivity extends AppCompatActivity implements PointerContrac
     }
 
     @Override
-    public String getRemotePointerIp() {
-        return preferences.getString(UiConstants.REMOTE_POINTER_IP, "");
+    public String getRemotePointerIp()
+    {
+        return preferences.getString(UiConstants.REMOTE_POINTER_IP, UiConstants.DEFAULT_REMOTE_POINTER_IP);
     }
 
     @Override
-    public int getRemotePointerPort() {
+    public int getRemotePointerPort()
+    {
         return preferences.getInt(UiConstants.REMOTE_POINTER_PORT, UiConstants.DEFAULT_AUDIO_PORT);
     }
 
     @Override
-    public int getAudioBufferSize() {
+    public int getAudioBufferSize()
+    {
         return preferences.getInt(UiConstants.AUDIO_BUFFER_SIZE, UiConstants.DEFAULT_AUDIO_BUFFER_SIZE);
     }
 
     @Override
-    public int getAudioSampleRate() {
+    public int getAudioSampleRate()
+    {
         return preferences.getInt(UiConstants.AUDIO_SAMPLE_RATE, UiConstants.DEFAULT_AUDIO_SAMPLE_RATE);
     }
 
     @Override
-    public boolean isSaveReceivedAudio() {
+    public boolean isSaveReceivedAudio()
+    {
         return preferences.getBoolean(UiConstants.IS_SAVE_RECEIVED_AUDIO, false);
     }
 
     @Override
-    public boolean isSaveSentAudio() {
+    public boolean isSaveSentAudio()
+    {
         return preferences.getBoolean(UiConstants.IS_SAVE_SEND_AUDIO, false);
     }
 
 
-    private void setListener() {
+    private void setListener()
+    {
         playButton.setOnClickListener(this);
         finishButton.setOnClickListener(this);
         playRecButton.setOnClickListener(this);
@@ -112,8 +125,17 @@ public class PointerActivity extends AppCompatActivity implements PointerContrac
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
+    protected void onDestroy()
+    {
+        presenter.release();
+        super.onDestroy();
+    }
+
+    @Override
+    public void onClick(View v)
+    {
+        switch (v.getId())
+        {
 //            case R.id.start_button:
 //                // 开始录制
 //                Log.i(TAG, "start_button::");
