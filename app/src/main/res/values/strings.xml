@@ -1,4 +1,17 @@
 <resources>
     <string name="app_name">P2PVoice</string>
     <string name="title_activity_pointer">PointerActivity</string>
+    <string name="call_answer">接听</string>
+    <string name="call_hangup">挂断</string>
+    <string name="call_connect">通话</string>
+    <string name="export_incoming">呼入</string>
+    <string name="export_outgoing">呼出</string>
+    <string name="answer">接听</string>
+    <string name="hold">保持</string>
+    <string name="retrieve">恢复</string>
+    <string name="send">发送</string>
+    <string name="play_send">播放发</string>
+    <string name="receive">接收</string>
+    <string name="play_receive">播放收</string>
+    <string name="more">更多</string>
 </resources>

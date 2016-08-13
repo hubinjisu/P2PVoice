@@ -23,4 +23,7 @@ public class UiConstants {
     public static final String AUDIO_BUFFER_SIZE ="AUDIO_BUFFER_SIZE";
     public static final String IS_SAVE_RECEIVED_AUDIO ="IS_SAVE_RECEIVED_AUDIO";
     public static final String IS_SAVE_SEND_AUDIO ="IS_SAVE_SEND_AUDIO";
+
+    public static final int POINTER_SESSION_STATUS_CLOSED = 1;
+    public static final int POINTER_SESSION_STATUS_OPEN = 2;
 }

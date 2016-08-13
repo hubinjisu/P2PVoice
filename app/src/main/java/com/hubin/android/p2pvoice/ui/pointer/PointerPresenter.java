@@ -12,6 +12,7 @@ import com.hubin.android.p2pvoice.api.impl.UDPReceivedThread;
 import com.hubin.android.p2pvoice.api.impl.UDPSendThread;
 import com.hubin.android.p2pvoice.api.impl.P2pVoiceServiceImpl;
 import com.hubin.android.p2pvoice.api.itf.IP2pVoiceService;
+import com.hubin.android.p2pvoice.model.PointerListItem;
 import com.hubin.android.p2pvoice.utils.UiConstants;
 
 import java.io.BufferedInputStream;
@@ -22,6 +23,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.net.DatagramSocket;
+import java.util.ArrayList;
 
 /**
  * Created by tester on 16-7-1.
@@ -85,6 +87,20 @@ public class PointerPresenter implements PointerContract.IPointerPresenter{
         } catch (Exception e) {
             Log.e(TAG, e.toString());
         }
+    }
+
+    public ArrayList<PointerListItem> getPointerList()
+    {
+        ArrayList<PointerListItem> pointerList = new ArrayList<PointerListItem>();
+        PointerListItem pointer = new PointerListItem();
+        pointer.setIp(UiConstants.DEFAULT_REMOTE_POINTER_IP);
+        pointer.setPort(UiConstants.DEFAULT_AUDIO_PORT);
+        pointerList.add(pointer);
+        PointerListItem pointer1 = new PointerListItem();
+        pointer1.setIp(UiConstants.DEFAULT_REMOTE_POINTER_IP);
+        pointer1.setPort(UiConstants.DEFAULT_AUDIO_PORT);
+        pointerList.add(pointer1);
+        return pointerList;
     }
 
     public void startPlaySavedRecievedAudio()
