@@ -13,9 +13,13 @@ import android.widget.TextView;
 
 import com.hubin.android.p2pvoice.R;
 import com.hubin.android.p2pvoice.model.ControlBtnItem;
+import com.jakewharton.rxbinding.view.RxView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import rx.functions.Action1;
 
 /**
  * 说明：单呼控制按钮适配器
@@ -77,22 +81,31 @@ public class CallControlAdapter extends BaseAdapter
                 mViewHolder.controlItem = (TextView) convertView.findViewById(R.id.call_control_item);
                 convertView.setTag(mViewHolder);
             }
-            if(mDataSource == null || mDataSource.size() <= position)
+            if (mDataSource == null || mDataSource.size() <= position)
             {
                 return convertView;
             }
-            ControlBtnItem controlBtnItem = mDataSource.get(position);
-            if(controlBtnItem == null)
+            final ControlBtnItem controlBtnItem = mDataSource.get(position);
+            if (controlBtnItem == null)
             {
                 return convertView;
             }
-            
+
             mViewHolder.controlItem.setText(controlBtnItem.getName());
             Drawable drawable = context.getResources().getDrawable(controlBtnItem.getIconRes());
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
             mViewHolder.controlItem.setCompoundDrawables(null, drawable, null, null);
             mViewHolder.controlItem.setBackground(context.getResources().getDrawable(controlBtnItem.getBgRes()));
-            mViewHolder.controlItem.setOnClickListener(controlBtnItem.getClickListener());
+            RxView.clicks(mViewHolder.controlItem)
+                    .throttleFirst(500, TimeUnit.MICROSECONDS)
+                    .subscribe(new Action1<Void>()
+                    {
+                        @Override
+                        public void call(Void aVoid)
+                        {
+                            controlBtnItem.getClickListener().onClick(mViewHolder.controlItem);
+                        }
+                    });
             mViewHolder.controlItem.setSelected(controlBtnItem.isSelected());
         }
         catch (NotFoundException e)
@@ -106,7 +119,7 @@ public class CallControlAdapter extends BaseAdapter
     {
         TextView controlItem;
     }
-    
+
     public void clear()
     {
         this.mDataSource = null;

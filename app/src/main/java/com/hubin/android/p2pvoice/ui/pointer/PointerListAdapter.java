@@ -14,8 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hubin.android.p2pvoice.R;
-import com.hubin.android.p2pvoice.model.PointerListItem;
 import com.hubin.android.p2pvoice.model.ControlBtnItem;
+import com.hubin.android.p2pvoice.model.PointerListItem;
 import com.hubin.android.p2pvoice.utils.UiConstants;
 import com.hubin.android.p2pvoice.utils.UiUtils;
 import com.hubin.android.p2pvoice.view.TimerText;
@@ -167,6 +167,7 @@ public class PointerListAdapter extends RecyclerView.Adapter<PointerListAdapter.
                     .call_control_btn_select_bg);
         }
         sendControlBtnItem.setIsSelected(listItem.isSending());
+
         sendControlBtnItem.setClickListener(new OnClickListener()
         {
             @Override
