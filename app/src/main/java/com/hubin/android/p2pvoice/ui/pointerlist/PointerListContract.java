@@ -1,17 +1,18 @@
-package com.hubin.android.p2pvoice.ui.pointer;
+package com.hubin.android.p2pvoice.ui.pointerlist;
 
 import com.hubin.android.p2pvoice.base.BasePresenter;
 import com.hubin.android.p2pvoice.base.IBaseView;
-import com.hubin.android.p2pvoice.model.PointerListItem;
+import com.hubin.android.p2pvoice.bean.PointerListItem;
 
 import java.util.ArrayList;
 
 /**
  * Created by tester on 16-7-17.
  */
-public interface PointerContract {
+public interface PointerListContract
+{
 
-    interface IPointerPresenter extends BasePresenter<IPointerView> {
+    interface IPointerListPresenter extends BasePresenter<IPointerListView> {
         void startPlaySavedRecievedAudio();
 
         void stopPlaySavedRecievedAudio();
@@ -31,9 +32,11 @@ public interface PointerContract {
         void stopSocket();
 
         ArrayList<PointerListItem> getPointerList();
+
+//        void showPointerDetail(PointerListItem pointer);
     }
 
-    interface IPointerView extends IBaseView<IPointerPresenter> {
+    interface IPointerListView extends IBaseView<IPointerListPresenter> {
         String getRemotePointerIp();
 
         int getRemotePointerPort();

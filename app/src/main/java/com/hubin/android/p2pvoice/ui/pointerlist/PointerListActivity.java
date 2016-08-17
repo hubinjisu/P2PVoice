@@ -1,4 +1,4 @@
-package com.hubin.android.p2pvoice.ui.pointer;
+package com.hubin.android.p2pvoice.ui.pointerlist;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,17 +15,18 @@ import android.view.View;
 import com.hubin.android.p2pvoice.R;
 import com.hubin.android.p2pvoice.ui.setting.SettingActivity;
 import com.hubin.android.p2pvoice.utils.UiConstants;
-import com.hubin.android.p2pvoice.utils.animator.AnimatorAdapterWrapper;
-import com.hubin.android.p2pvoice.utils.animator.SlideInOutRightItemAnimator;
 
-public class PointerActivity extends AppCompatActivity implements PointerContract.IPointerView
+import it.gmariotti.recyclerview.adapter.SlideInRightAnimatorAdapter;
+import it.gmariotti.recyclerview.itemanimator.SlideInOutRightItemAnimator;
+
+public class PointerListActivity extends AppCompatActivity implements PointerListContract.IPointerListView
 {
-    private static final String TAG = "PointerActivity";
+    private static final String TAG = "PointerListActivity";
 //    private Button startSendButton, stopSendButton, startReceButton, stopReceButton, stopUDPButton;
 //    private Button playButton, finishButton, playRecButton, finishRecButton;
 
     private SharedPreferences preferences;
-    private PointerPresenter presenter;
+    private PointerListPresenter presenter;
 
     private RecyclerView callListView;
     private PointerListAdapter listAdapter;
@@ -37,7 +38,7 @@ public class PointerActivity extends AppCompatActivity implements PointerContrac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pointer);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        presenter = new PointerPresenter(this);
+        presenter = new PointerListPresenter(this);
         //初始化View
         initView();
         //设置监听器
@@ -49,16 +50,6 @@ public class PointerActivity extends AppCompatActivity implements PointerContrac
      */
     private void initView()
     {
-//        playButton = (Button) findViewById(R.id.play_button);
-//        finishButton = (Button) findViewById(R.id.finish_button);
-//        playRecButton = (Button) findViewById(R.id.play_rec_button);
-//        finishRecButton = (Button) findViewById(R.id.finish_rec_button);
-//        startSendButton = (Button) findViewById(R.id.start_send_button);
-//        stopSendButton = (Button) findViewById(R.id.stop_send_button);
-//        startReceButton = (Button) findViewById(R.id.start_rece_button);
-//        stopReceButton = (Button) findViewById(R.id.stop_rece_button);
-//        stopUDPButton = (Button) findViewById(R.id.stop_udp_button);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.pointer_toolbar);
 
         toolbar.setTitle("P2P");//设置主标题
@@ -73,7 +64,7 @@ public class PointerActivity extends AppCompatActivity implements PointerContrac
                 int menuItemId = item.getItemId();
                 if (menuItemId == R.id.action_item1)
                 {
-                    startActivity(new Intent(PointerActivity.this, SettingActivity.class));
+                    startActivity(new Intent(PointerListActivity.this, SettingActivity.class));
                 }
                 return true;
             }
@@ -84,11 +75,9 @@ public class PointerActivity extends AppCompatActivity implements PointerContrac
         layoutManager = new LinearLayoutManager(this);
         callListView.setLayoutManager(layoutManager);
         callListView.addItemDecoration(new VerticalSpaceItemDecoration(3));
-//                callListView.setLayoutAnimation(UiUtils.getListViewAnimationController());
-            AnimatorAdapterWrapper slideInRightAnimatorAdapter = new AnimatorAdapterWrapper(listAdapter, callListView, AnimatorAdapterWrapper
-                    .ANIMATOR_TYPE_SLIDE_IN_RIGHT);
-            callListView.setAdapter(slideInRightAnimatorAdapter);
-            callListView.setItemAnimator(new SlideInOutRightItemAnimator(callListView, SlideInOutRightItemAnimator.ITEM_ANIMATOR_TYPE_SLIDE_IN_OUT_RIGHT));
+        SlideInRightAnimatorAdapter slideInRightAnimatorAdapter = new SlideInRightAnimatorAdapter(listAdapter, callListView);
+        callListView.setAdapter(slideInRightAnimatorAdapter);
+        callListView.setItemAnimator(new SlideInOutRightItemAnimator(callListView));
         listAdapter.updateList(presenter.getPointerList());
     }
 

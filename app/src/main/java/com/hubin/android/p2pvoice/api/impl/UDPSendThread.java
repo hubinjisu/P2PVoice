@@ -19,8 +19,7 @@ import java.net.InetAddress;
 /**
  * 说明：
  *
- * @author  chaimb
- *
+ * @author chaimb
  * @Date 2016-4-14
  */
 public class UDPSendThread implements Runnable
@@ -65,8 +64,10 @@ public class UDPSendThread implements Runnable
     {
         this.sendDataSize = dataSize;
     }
+
     /**
      * 方法说明 :开始发送
+     *
      * @author chaimb
      * @Date 2016-4-14
      */
@@ -81,6 +82,7 @@ public class UDPSendThread implements Runnable
 
     /**
      * 方法说明 :停止发送
+     *
      * @author chaimb
      * @Date 2016-4-14
      */
@@ -90,19 +92,19 @@ public class UDPSendThread implements Runnable
         {
             sendPacket = null;
         }
+        isSend = false;
     }
 
     @Override
     public void run()
     {
-        if (Thread.currentThread() == sendThread)
-        {// 发送线程
-            sendData();
-        }
+        // 发送线程
+        sendData();
     }
 
     /**
      * 方法说明 :
+     *
      * @author chaimb
      * @Date 2016-4-17
      */

@@ -1,4 +1,4 @@
-package com.hubin.android.p2pvoice.ui.pointer;
+package com.hubin.android.p2pvoice.ui.pointerlist;
 
 import android.content.Context;
 import android.os.Handler;
@@ -14,8 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hubin.android.p2pvoice.R;
-import com.hubin.android.p2pvoice.model.ControlBtnItem;
-import com.hubin.android.p2pvoice.model.PointerListItem;
+import com.hubin.android.p2pvoice.bean.ControlBtnItem;
+import com.hubin.android.p2pvoice.bean.PointerListItem;
 import com.hubin.android.p2pvoice.utils.UiConstants;
 import com.hubin.android.p2pvoice.utils.UiUtils;
 import com.hubin.android.p2pvoice.view.TimerText;
@@ -40,7 +40,7 @@ public class PointerListAdapter extends RecyclerView.Adapter<PointerListAdapter.
     private Context context;
     private AdapterHandler mHandler;
     private int controlViewHeight;
-    private PointerPresenter presenter;
+    private PointerListPresenter presenter;
 
     private ControlBtnItem releaseControlBtnItem;
     private ControlBtnItem sendControlBtnItem;
@@ -61,7 +61,7 @@ public class PointerListAdapter extends RecyclerView.Adapter<PointerListAdapter.
     private ControlBtnItem closeConfControlBtnItem;
     private ControlBtnItem openConfControlBtnItem;
 
-    public PointerListAdapter(Context mContext, PointerPresenter presenter)
+    public PointerListAdapter(Context mContext, PointerListPresenter presenter)
     {
         this.context = mContext;
         this.inflater = LayoutInflater.from(mContext);

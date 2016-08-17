@@ -1,4 +1,4 @@
-package com.hubin.android.p2pvoice.ui.pointer;
+package com.hubin.android.p2pvoice.ui.pointerlist;
 
 import android.content.Context;
 import android.content.res.Resources.NotFoundException;
@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 
 import com.hubin.android.p2pvoice.R;
-import com.hubin.android.p2pvoice.model.ControlBtnItem;
+import com.hubin.android.p2pvoice.bean.ControlBtnItem;
 import com.jakewharton.rxbinding.view.RxView;
 
 import java.util.ArrayList;

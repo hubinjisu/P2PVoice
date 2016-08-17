@@ -1,4 +1,4 @@
-package com.hubin.android.p2pvoice.model;
+package com.hubin.android.p2pvoice.bean;
 
 import java.io.Serializable;
 import java.util.List;

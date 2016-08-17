@@ -1,4 +1,4 @@
-package com.hubin.android.p2pvoice.ui.pointer;
+package com.hubin.android.p2pvoice.ui.pointerlist;
 
 import android.media.AudioManager;
 import android.media.AudioRecord;
@@ -12,7 +12,7 @@ import com.hubin.android.p2pvoice.api.impl.P2pVoiceServiceImpl;
 import com.hubin.android.p2pvoice.api.impl.UDPReceivedThread;
 import com.hubin.android.p2pvoice.api.impl.UDPSendThread;
 import com.hubin.android.p2pvoice.api.itf.IP2pVoiceService;
-import com.hubin.android.p2pvoice.model.PointerListItem;
+import com.hubin.android.p2pvoice.bean.PointerListItem;
 import com.hubin.android.p2pvoice.utils.UiConstants;
 
 import java.io.BufferedInputStream;
@@ -32,10 +32,10 @@ import rx.schedulers.Schedulers;
 /**
  * Created by tester on 16-7-1.
  */
-public class PointerPresenter implements PointerContract.IPointerPresenter
+public class PointerListPresenter implements PointerListContract.IPointerListPresenter
 {
-    private static final String TAG = "PointerPresenter";
-    private PointerContract.IPointerView iPointerView;
+    private static final String TAG = "PointerListPresenter";
+    private PointerListContract.IPointerListView iPointerView;
     private IP2pVoiceService p2pVoiceService;
     private boolean isPlaying = false;
     private boolean isRecording = false;
@@ -46,7 +46,7 @@ public class PointerPresenter implements PointerContract.IPointerPresenter
 
     private File sendAudioFile, recAudioFile;
 
-    public PointerPresenter(PointerContract.IPointerView iPointerView)
+    public PointerListPresenter(PointerListContract.IPointerListView iPointerView)
     {
         this.iPointerView = iPointerView;
         this.p2pVoiceService = new P2pVoiceServiceImpl();
@@ -173,8 +173,7 @@ public class PointerPresenter implements PointerContract.IPointerPresenter
     {
         if (udpSendThread != null)
         {
-            udpSendThread.setSend(false);
-//                    udpSendThread.stopSend();
+            udpSendThread.stopSend();
         }
     }
 
@@ -188,15 +187,14 @@ public class PointerPresenter implements PointerContract.IPointerPresenter
         udpReceivedThread.setReceived(true);
         udpReceivedThread.setSaveReceived(iPointerView.isSaveReceivedAudio());
         udpReceivedThread.setReceiveDataSize(iPointerView.getAudioBufferSize());
-        udpReceivedThread.connectSocket();
+        udpReceivedThread.startReceived();
     }
 
     public void stopReceiveAudioData()
     {
         if (udpReceivedThread != null)
         {
-            udpReceivedThread.setReceived(false);
-//                    udpReceivedThread.stopReceivedData();
+            udpReceivedThread.stopReceivedData();
         }
     }
 

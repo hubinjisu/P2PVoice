@@ -18,8 +18,7 @@ import java.net.DatagramSocket;
 /**
  * 说明：
  *
- * @author  chaimb
- *
+ * @author chaimb
  * @Date 2016-4-14
  */
 public class UDPReceivedThread implements Runnable
@@ -55,17 +54,13 @@ public class UDPReceivedThread implements Runnable
         this.receiveDataSize = receiveDataSize;
     }
 
-    public void connectSocket()
-    {
-        startReceived();
-    }
-
     /**
      * 方法说明 :开始接收
+     *
      * @author chaimb
      * @Date 2016-4-14
      */
-    private void startReceived()
+    public void startReceived()
     {
         if (receivedThread == null)
         {
@@ -77,19 +72,9 @@ public class UDPReceivedThread implements Runnable
     @Override
     public void run()
     {
-        if (Thread.currentThread() == receivedThread)
-        {// 接收线程
-            Log.i(TAG, "Thread::receivedData::");
-            try
-            {
-                receivedData();
-                Thread.sleep(100);
-            }
-            catch (InterruptedException e)
-            {
-                Log.e(TAG, e.toString());
-            }
-        }
+        // 接收线程
+        Log.i(TAG, "Thread::receivedData::");
+        receivedData();
     }
 
     private void receivedData()
@@ -137,11 +122,13 @@ public class UDPReceivedThread implements Runnable
 
     /**
      * 方法说明 :停止接收数据
+     *
      * @author chaimb
      * @Date 2016-4-14
      */
     public void stopReceivedData()
     {
+        isReceived = false;
         if (receivedPacket != null)
         {
             receivedPacket = null;
