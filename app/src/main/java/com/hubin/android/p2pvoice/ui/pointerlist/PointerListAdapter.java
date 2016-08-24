@@ -1,6 +1,7 @@
 package com.hubin.android.p2pvoice.ui.pointerlist;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import com.hubin.android.p2pvoice.R;
 import com.hubin.android.p2pvoice.bean.ControlBtnItem;
 import com.hubin.android.p2pvoice.bean.PointerListItem;
+import com.hubin.android.p2pvoice.ui.pointerdetail.PointerDetailActivity;
 import com.hubin.android.p2pvoice.utils.UiConstants;
 import com.hubin.android.p2pvoice.utils.UiUtils;
 import com.hubin.android.p2pvoice.view.TimerText;
@@ -46,7 +48,7 @@ public class PointerListAdapter extends RecyclerView.Adapter<PointerListAdapter.
     private ControlBtnItem sendControlBtnItem;
     private ControlBtnItem receiveControlBtnItem;
     private ControlBtnItem playSendRecordControlBtnItem;
-    private ControlBtnItem relativeVideoControlBtnItem;
+    private ControlBtnItem showDetailControlBtnItem;
     private ControlBtnItem speakerControlBtnItem;
     private ControlBtnItem playReceiveRecordControlBtnItem;
     private ControlBtnItem videoCloseControlBtnItem;
@@ -94,8 +96,8 @@ public class PointerListAdapter extends RecyclerView.Adapter<PointerListAdapter.
         {
             // viewHolder.timerView.setStartTime(item.getCallModel().getStartTime());
             // 显示通话对象
-            holder.nameView.setText(item.getIp());
-            holder.numberView.setText(item.getPort() + "");
+            holder.nameView.setText(item.getPointer().getIp());
+            holder.numberView.setText(item.getPointer().getPort() + "");
 
             // 初始化状态和业务控制区
             handleStatus(holder, item);
@@ -139,6 +141,7 @@ public class PointerListAdapter extends RecyclerView.Adapter<PointerListAdapter.
         controlBtnItems.add(createReceiveControlItem(item));
         controlBtnItems.add(createPlayReceiveRecordControlItem(item));
         controlBtnItems.add(createPlaySendRecordControlItem(item));
+        controlBtnItems.add(createShowDetailControlItem(item));
 
         viewHolder.statusView.setText(context.getString(R.string.export_incoming));
         viewHolder.callStatus.setImageResource(R.mipmap.call_status_ringing);
@@ -220,6 +223,11 @@ public class PointerListAdapter extends RecyclerView.Adapter<PointerListAdapter.
                     presenter.stopPlaySavedRecievedAudio();
                     presenter.stopSocket();
                     listItem.setStatus(UiConstants.POINTER_SESSION_STATUS_CLOSED);
+                    listItem.setReceiving(false);
+                    listItem.setSending(false);
+                    listItem.setPlayingReceive(false);
+                    listItem.setPlayingSend(false);
+                    notifyItemChanged(mListItems.indexOf(listItem));
                     Log.d(TAG, "click:releaseControlBtnItem Call::sessionId:");
                 }
                 catch (Exception e)
@@ -347,6 +355,36 @@ public class PointerListAdapter extends RecyclerView.Adapter<PointerListAdapter.
             }
         });
         return playSendRecordControlBtnItem;
+    }
+
+    /**
+     * 显示详情
+     */
+    private ControlBtnItem createShowDetailControlItem(final PointerListItem listItem)
+    {
+        if (showDetailControlBtnItem == null)
+        {
+            showDetailControlBtnItem = new ControlBtnItem(context.getString(R.string.detail), R.drawable.call_hold_btn_select_bg, R
+                    .drawable.call_control_btn_click_bg);
+        }
+        showDetailControlBtnItem.setClickListener(new OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                try
+                {
+                    Intent intent = new Intent(context, PointerDetailActivity.class);
+                    intent.putExtra("pointer_bean", listItem.getPointer());
+                    context.startActivity(intent);
+                }
+                catch (Exception e)
+                {
+                    Log.e(TAG, e.toString());
+                }
+            }
+        });
+        return showDetailControlBtnItem;
     }
 
     /**

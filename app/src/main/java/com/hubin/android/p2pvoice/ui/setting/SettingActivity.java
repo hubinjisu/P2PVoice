@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -35,7 +34,7 @@ public class SettingActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: ");
-        setContentView(R.layout.activity_setting);
+        setContentView(R.layout.activity_pointer_detail);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         ipEditText = (EditText) findViewById(R.id.ip_edittext);
         recordSendSwitch = (Switch) findViewById(R.id.switch_send_record);

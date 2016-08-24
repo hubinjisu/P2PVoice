@@ -55,7 +55,7 @@ public class PointerListActivity extends AppCompatActivity implements PointerLis
         toolbar.setTitle("P2P");//设置主标题
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));//设置主标题颜色
 
-        toolbar.inflateMenu(R.menu.tool_bar_menu);//设置右上角的填充菜单
+        toolbar.inflateMenu(R.menu.pointer_list_tool_bar_menu);//设置右上角的填充菜单
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener()
         {
             @Override

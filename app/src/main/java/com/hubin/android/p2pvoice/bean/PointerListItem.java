@@ -15,20 +15,24 @@ public class PointerListItem extends BaseListItem
     private int status = UiConstants.POINTER_SESSION_STATUS_CLOSED;
     private String mediaType;
 
-//    private int type;
+    private boolean isDropDown;
+    //    private int type;
     // 单呼转会议
 //    private boolean isTransferToConf = false;
     private boolean isReceiving;
     private boolean isSending;
     private boolean isPlayingSend;
     private boolean isPlayingReceive;
-    private boolean isDropDown;
     private boolean isActionShow;
     private boolean isActionHide;
     private long startTime;
     private long endTime;
-    private String ip;
-    private int port;
+    private PointerBean pointer;
+
+    public PointerListItem()
+    {
+        pointer = new PointerBean();
+    }
 
     public boolean isActionShow()
     {
@@ -140,24 +144,13 @@ public class PointerListItem extends BaseListItem
         this.endTime = endTime;
     }
 
-    public String getIp()
+    public PointerBean getPointer()
     {
-        return ip;
+        return pointer;
     }
 
-    public void setIp(String ip)
+    public void setPointer(PointerBean pointer)
     {
-        this.ip = ip;
+        this.pointer = pointer;
     }
-
-    public int getPort()
-    {
-        return port;
-    }
-
-    public void setPort(int port)
-    {
-        this.port = port;
-    }
-
 }
