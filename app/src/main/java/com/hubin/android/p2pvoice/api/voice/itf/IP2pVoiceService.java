@@ -1,4 +1,4 @@
-package com.hubin.android.p2pvoice.api.itf;
+package com.hubin.android.p2pvoice.api.voice.itf;
 
 /**
  * Created by tester on 16-7-1.

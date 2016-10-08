@@ -11,9 +11,14 @@ public interface PointerDetailContract
 {
 
     interface IPointerDetailPresenter extends BasePresenter<IPointerDetailView> {
-        void showPointerDetail(PointerListItem pointer);
+        void addPointer(PointerListItem pointer);
+        void deletePointer(PointerListItem pointer);
+        void updatePointer(PointerListItem pointer);
     }
 
     interface IPointerDetailView extends IBaseView<IPointerDetailPresenter> {
+        void showSaveResult(boolean result);
+        void showDeleteResult(boolean result);
+        void showUpdateResult(boolean result);
     }
 }

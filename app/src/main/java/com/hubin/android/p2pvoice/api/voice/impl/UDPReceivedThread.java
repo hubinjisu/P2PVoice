@@ -1,4 +1,4 @@
-package com.hubin.android.p2pvoice.api.impl;
+package com.hubin.android.p2pvoice.api.voice.impl;
 
 import android.media.AudioManager;
 import android.media.AudioTrack;

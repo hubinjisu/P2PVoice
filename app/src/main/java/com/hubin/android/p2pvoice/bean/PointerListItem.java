@@ -1,5 +1,6 @@
 package com.hubin.android.p2pvoice.bean;
 
+import com.hubin.android.p2pvoice.bean.dao.Pointer;
 import com.hubin.android.p2pvoice.utils.UiConstants;
 
 /**
@@ -27,11 +28,11 @@ public class PointerListItem extends BaseListItem
     private boolean isActionHide;
     private long startTime;
     private long endTime;
-    private PointerBean pointer;
+    private Pointer pointer;
 
     public PointerListItem()
     {
-        pointer = new PointerBean();
+        pointer = new Pointer();
     }
 
     public boolean isActionShow()
@@ -144,12 +145,12 @@ public class PointerListItem extends BaseListItem
         this.endTime = endTime;
     }
 
-    public PointerBean getPointer()
+    public Pointer getPointer()
     {
         return pointer;
     }
 
-    public void setPointer(PointerBean pointer)
+    public void setPointer(Pointer pointer)
     {
         this.pointer = pointer;
     }

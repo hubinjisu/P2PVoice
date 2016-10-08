@@ -1,5 +1,6 @@
 package com.hubin.android.p2pvoice.ui.pointerdetail;
 
+import com.hubin.android.p2pvoice.api.db.impl.DbService;
 import com.hubin.android.p2pvoice.bean.PointerListItem;
 
 /**
@@ -10,10 +11,31 @@ import com.hubin.android.p2pvoice.bean.PointerListItem;
  */
 public class PointerDetailPresenter implements PointerDetailContract.IPointerDetailPresenter
 {
-    @Override
-    public void showPointerDetail(PointerListItem pointer)
-    {
+    private PointerDetailContract.IPointerDetailView detailView;
+    private DbService dbService;
 
+    public PointerDetailPresenter(PointerDetailContract.IPointerDetailView detailView)
+    {
+        this.detailView = detailView;
+        this.dbService = DbService.getInstance();
+    }
+
+    @Override
+    public void addPointer(PointerListItem pointer)
+    {
+        dbService.addPointer(pointer.getPointer());
+    }
+
+    @Override
+    public void deletePointer(PointerListItem pointer)
+    {
+        dbService.deletePointer(pointer.getPointer());
+    }
+
+    @Override
+    public void updatePointer(PointerListItem pointer)
+    {
+        dbService.updatePointer(pointer.getPointer());
     }
 
     @Override

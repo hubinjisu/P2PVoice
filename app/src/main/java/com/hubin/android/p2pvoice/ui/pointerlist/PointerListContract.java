@@ -33,7 +33,7 @@ public interface PointerListContract
 
         ArrayList<PointerListItem> getPointerList();
 
-//        void showPointerDetail(PointerListItem pointer);
+//        void deletePointer(PointerListItem pointer);
     }
 
     interface IPointerListView extends IBaseView<IPointerListPresenter> {

@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -16,7 +16,7 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.hubin.android.p2pvoice.R;
-import com.hubin.android.p2pvoice.bean.PointerBean;
+import com.hubin.android.p2pvoice.bean.dao.Pointer;
 import com.hubin.android.p2pvoice.utils.UiConstants;
 
 /**
@@ -37,8 +37,9 @@ public class PointerDetailActivity extends AppCompatActivity implements PointerD
     private RadioButton frequence8K, frequence16K, frequence44K;
     private Toolbar mToolbar;
 
-    private PointerBean pointerBean;
+    private Pointer pointerBean;
     private boolean isEditable;
+    private boolean isAddPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -116,31 +117,6 @@ public class PointerDetailActivity extends AppCompatActivity implements PointerD
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        Log.d(TAG, "onCreateOptionsMenu");
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        Log.d(TAG, "onOptionsItemSelected");
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu)
-    {
-        Log.d(TAG, "onPrepareOptionsMenu");
-        menu.findItem(R.id.action_edit).setVisible(!isEditable);
-        menu.findItem(R.id.action_delete).setVisible(!isEditable);
-        menu.findItem(R.id.action_confirm).setVisible(isEditable);
-        menu.findItem(R.id.action_cancel).setVisible(isEditable);
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
     protected void onResume()
     {
         super.onResume();
@@ -149,8 +125,8 @@ public class PointerDetailActivity extends AppCompatActivity implements PointerD
         {
             Log.d(TAG, "pointerBean != null");
             ipEditText.setText(pointerBean.getIp());
-            recordSendSwitch.setChecked(pointerBean.isRecordSend());
-            recordRecSwitch.setChecked(pointerBean.isRecordReceive());
+            recordSendSwitch.setChecked(pointerBean.getIsRecordSend());
+            recordRecSwitch.setChecked(pointerBean.getIsRecordReceive());
             switch (pointerBean.getAudioSampleRate())
             {
                 case 32000:
@@ -165,10 +141,14 @@ public class PointerDetailActivity extends AppCompatActivity implements PointerD
                 default:
                     break;
             }
-            ipEditText.setEnabled(false);
-            recordSendSwitch.setEnabled(false);
-            recordRecSwitch.setEnabled(false);
-            radioGroup.setEnabled(false);
+            setEditable(false);
+            isAddPage = false;
+        }
+        else
+        {
+            pointerBean = new Pointer();
+            setEditable(true);
+            isAddPage = true;
         }
     }
 
@@ -188,6 +168,11 @@ public class PointerDetailActivity extends AppCompatActivity implements PointerD
     protected void onDestroy()
     {
         super.onDestroy();
+        if (TextUtils.isEmpty(ipEditText.getText().toString()))
+        {
+            return;
+        }
+
         if (radioGroup.getCheckedRadioButtonId() == frequence8K.getId())
         {
             preferences.edit().putInt(UiConstants.AUDIO_SAMPLE_RATE, 8000);
@@ -211,4 +196,21 @@ public class PointerDetailActivity extends AppCompatActivity implements PointerD
     }
 
 
+    @Override
+    public void showSaveResult(boolean result)
+    {
+
+    }
+
+    @Override
+    public void showDeleteResult(boolean result)
+    {
+
+    }
+
+    @Override
+    public void showUpdateResult(boolean result)
+    {
+
+    }
 }

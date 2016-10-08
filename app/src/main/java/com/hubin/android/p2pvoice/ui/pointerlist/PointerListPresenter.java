@@ -8,11 +8,13 @@ import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
 
-import com.hubin.android.p2pvoice.api.impl.P2pVoiceServiceImpl;
-import com.hubin.android.p2pvoice.api.impl.UDPReceivedThread;
-import com.hubin.android.p2pvoice.api.impl.UDPSendThread;
-import com.hubin.android.p2pvoice.api.itf.IP2pVoiceService;
+import com.hubin.android.p2pvoice.api.db.impl.DbService;
+import com.hubin.android.p2pvoice.api.voice.impl.P2pVoiceServiceImpl;
+import com.hubin.android.p2pvoice.api.voice.impl.UDPReceivedThread;
+import com.hubin.android.p2pvoice.api.voice.impl.UDPSendThread;
+import com.hubin.android.p2pvoice.api.voice.itf.IP2pVoiceService;
 import com.hubin.android.p2pvoice.bean.PointerListItem;
+import com.hubin.android.p2pvoice.bean.dao.Pointer;
 import com.hubin.android.p2pvoice.utils.UiConstants;
 
 import java.io.BufferedInputStream;
@@ -24,6 +26,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.net.DatagramSocket;
 import java.util.ArrayList;
+import java.util.List;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -43,6 +46,7 @@ public class PointerListPresenter implements PointerListContract.IPointerListPre
     private UDPSendThread udpSendThread;
     private UDPReceivedThread udpReceivedThread;
     private DatagramSocket datagramSocket = null;
+    private DbService dbService;
 
     private File sendAudioFile, recAudioFile;
 
@@ -50,6 +54,7 @@ public class PointerListPresenter implements PointerListContract.IPointerListPre
     {
         this.iPointerView = iPointerView;
         this.p2pVoiceService = new P2pVoiceServiceImpl();
+        this.dbService = DbService.getInstance();
         Observable.create(new Observable.OnSubscribe<Object>()
         {
             @Override
@@ -116,10 +121,18 @@ public class PointerListPresenter implements PointerListContract.IPointerListPre
     public ArrayList<PointerListItem> getPointerList()
     {
         ArrayList<PointerListItem> pointerList = new ArrayList<PointerListItem>();
-        PointerListItem pointer = new PointerListItem();
-        pointer.getPointer().setIp(UiConstants.DEFAULT_REMOTE_POINTER_IP);
-        pointer.getPointer().setPort(UiConstants.DEFAULT_AUDIO_PORT);
-        pointerList.add(pointer);
+        List<Pointer> pointers = dbService.getAllPointers();
+        PointerListItem pointerItem = new PointerListItem();
+        pointerItem.getPointer().setIp(UiConstants.DEFAULT_REMOTE_POINTER_IP);
+        pointerItem.getPointer().setPort(UiConstants.DEFAULT_AUDIO_PORT);
+        pointerList.add(pointerItem);
+        for (Pointer pointer : pointers)
+        {
+            pointerItem = new PointerListItem();
+            pointerItem.getPointer().setIp(pointer.getIp());
+            pointerItem.getPointer().setPort(pointer.getPort());
+            pointerList.add(pointerItem);
+        }
         return pointerList;
     }
 
