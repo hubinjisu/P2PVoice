@@ -5,8 +5,6 @@ package com.hubin.android.p2pvoice.bean.dao;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.hubin.android.p2pvoice.utils.UiConstants;
-
 import java.util.Date;
 
 /**
@@ -26,14 +24,6 @@ public class Pointer implements Parcelable
     private Boolean isRecordReceive;
 
     public Pointer() {
-        this.id = 1L;
-        this.createDate = new Date();
-        this.name = "local";
-        this.ip = "127.0.0.1";
-        this.port = UiConstants.DEFAULT_AUDIO_PORT;
-        this.audioSampleRate = UiConstants.DEFAULT_AUDIO_SAMPLE_RATE;
-        this.isRecordSend = false;
-        this.isRecordReceive = false;
     }
 
     public Pointer(Long id) {
@@ -86,7 +76,10 @@ public class Pointer implements Parcelable
     }
 
     public Integer getPort() {
-        return port;
+        if (port != null)
+            return port.intValue();
+        else
+            return 0;
     }
 
     public void setPort(Integer port) {
@@ -94,7 +87,10 @@ public class Pointer implements Parcelable
     }
 
     public Integer getAudioSampleRate() {
-        return audioSampleRate;
+        if (audioSampleRate != null)
+            return audioSampleRate.intValue();
+        else
+            return 0;
     }
 
     public void setAudioSampleRate(Integer audioSampleRate) {
@@ -102,7 +98,10 @@ public class Pointer implements Parcelable
     }
 
     public Boolean getIsRecordSend() {
-        return isRecordSend;
+        if (isRecordSend != null)
+            return isRecordSend.booleanValue();
+        else
+            return false;
     }
 
     public void setIsRecordSend(Boolean isRecordSend) {
@@ -110,7 +109,10 @@ public class Pointer implements Parcelable
     }
 
     public Boolean getIsRecordReceive() {
-        return isRecordReceive;
+        if (isRecordReceive != null)
+            return isRecordReceive.booleanValue();
+        else
+            return false;
     }
 
     public void setIsRecordReceive(Boolean isRecordReceive) {

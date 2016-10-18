@@ -1,17 +1,15 @@
 package com.hubin.android.p2pvoice.ui.pointerdetail;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -30,12 +28,15 @@ public class PointerDetailActivity extends AppCompatActivity implements PointerD
     private static final String TAG = "PointerDetailActivity";
 
     private EditText ipEditText;
+    private EditText portEditText;
     private Switch recordSendSwitch;
     private Switch recordRecSwitch;
-    private RadioGroup radioGroup;
-    private SharedPreferences preferences;
-    private RadioButton frequence8K, frequence16K, frequence44K;
+    private Spinner sampleRateSpinner;
+    //    private RadioGroup radioGroup;
+//    private SharedPreferences preferences;
+//    private RadioButton frequence8K, frequence16K, frequence44K;
     private Toolbar mToolbar;
+    private PointerDetailPresenter presenter;
 
     private Pointer pointerBean;
     private boolean isEditable;
@@ -47,14 +48,18 @@ public class PointerDetailActivity extends AppCompatActivity implements PointerD
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: ");
         setContentView(R.layout.activity_pointer_detail);
-        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        presenter = new PointerDetailPresenter(this);
+//        preferences = PreferenceManager.getDefaultSharedPreferences(this);
         ipEditText = (EditText) findViewById(R.id.ip_edittext);
+        portEditText = (EditText) findViewById(R.id.port_edittext);
         recordSendSwitch = (Switch) findViewById(R.id.switch_send_record);
         recordRecSwitch = (Switch) findViewById(R.id.switch_received_record);
-        radioGroup = (RadioGroup) findViewById(R.id.radio_group);
-        frequence8K = (RadioButton) findViewById(R.id.f8k_radiobutton);
-        frequence16K = (RadioButton) findViewById(R.id.f16k_radiobutton);
-        frequence44K = (RadioButton) findViewById(R.id.f44k_radiobutton);
+        sampleRateSpinner = (Spinner) findViewById(R.id.sample_rate_spinner);
+        sampleRateSpinner.setAdapter(new ArrayAdapter<String>(this, R.layout.simple_spinner_item, getResources().getStringArray(R.array.sample_rate)));
+//        radioGroup = (RadioGroup) findViewById(R.id.radio_group);
+//        frequence8K = (RadioButton) findViewById(R.id.f8k_radiobutton);
+//        frequence16K = (RadioButton) findViewById(R.id.f16k_radiobutton);
+//        frequence44K = (RadioButton) findViewById(R.id.f44k_radiobutton);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setTitle("Pointer");//设置主标题
         mToolbar.setTitleTextColor(getResources().getColor(android.R.color.white));//设置主标题颜色
@@ -86,16 +91,42 @@ public class PointerDetailActivity extends AppCompatActivity implements PointerD
                         setEditable(true);
                         break;
                     case R.id.action_delete:
-                        Toast.makeText(PointerDetailActivity.this, "success to delete", Toast.LENGTH_SHORT).show();
-                        finish();
+                        if (!UiConstants.DEFAULT_REMOTE_POINTER_IP.equals(pointerBean.getIp()))
+                        {
+                            Toast.makeText(PointerDetailActivity.this, "success to delete", Toast.LENGTH_SHORT).show();
+                            presenter.deletePointer(pointerBean);
+                            finish();
+                        }
+                        else
+                        {
+                            Toast.makeText(PointerDetailActivity.this, "can not delete local pointer", Toast.LENGTH_SHORT).show();
+                        }
                         break;
                     case R.id.action_confirm:
-                        Toast.makeText(PointerDetailActivity.this, "success to save", Toast.LENGTH_SHORT).show();
-                        setEditable(false);
+                        if (isAddPage)
+                        {
+                            resetPointerData();
+                            presenter.addPointer(pointerBean);
+                            finish();
+                        }
+                        else
+                        {
+                            Toast.makeText(PointerDetailActivity.this, "success to save", Toast.LENGTH_SHORT).show();
+                            resetPointerData();
+                            presenter.updatePointer(pointerBean);
+                            setEditable(false);
+                        }
                         break;
                     case R.id.action_cancel:
-                        Toast.makeText(PointerDetailActivity.this, "fail to save", Toast.LENGTH_SHORT).show();
-                        setEditable(false);
+                        if (isAddPage)
+                        {
+                            finish();
+                        }
+                        else
+                        {
+                            Toast.makeText(PointerDetailActivity.this, "fail to save", Toast.LENGTH_SHORT).show();
+                            setEditable(false);
+                        }
                         break;
                 }
                 return true;
@@ -103,13 +134,33 @@ public class PointerDetailActivity extends AppCompatActivity implements PointerD
         });
     }
 
+    private void resetPointerData()
+    {
+        pointerBean.setIp(ipEditText.getText().toString());
+        pointerBean.setIsRecordSend(recordSendSwitch.isChecked());
+        pointerBean.setIsRecordReceive(recordRecSwitch.isChecked());
+        switch (sampleRateSpinner.getSelectedItemPosition())
+        {
+            case 0:
+                pointerBean.setAudioSampleRate(8000);
+                break;
+            case 1:
+                pointerBean.setAudioSampleRate(16000);
+                break;
+            case 2:
+                pointerBean.setAudioSampleRate(44100);
+                break;
+        }
+    }
+
     private void setEditable(boolean editable)
     {
         isEditable = editable;
         ipEditText.setEnabled(editable);
+        portEditText.setEnabled(editable);
         recordSendSwitch.setEnabled(editable);
         recordRecSwitch.setEnabled(editable);
-        radioGroup.setEnabled(editable);
+        sampleRateSpinner.setEnabled(editable);
         mToolbar.getMenu().findItem(R.id.action_edit).setVisible(!isEditable);
         mToolbar.getMenu().findItem(R.id.action_delete).setVisible(!isEditable);
         mToolbar.getMenu().findItem(R.id.action_confirm).setVisible(isEditable);
@@ -124,19 +175,20 @@ public class PointerDetailActivity extends AppCompatActivity implements PointerD
         if (pointerBean != null)
         {
             Log.d(TAG, "pointerBean != null");
-            ipEditText.setText(pointerBean.getIp());
+            ipEditText.setText(pointerBean.getIp() + "");
+            portEditText.setText(pointerBean.getPort() + "");
             recordSendSwitch.setChecked(pointerBean.getIsRecordSend());
             recordRecSwitch.setChecked(pointerBean.getIsRecordReceive());
             switch (pointerBean.getAudioSampleRate())
             {
-                case 32000:
-                    frequence44K.setChecked(true);
+                case 44100:
+                    sampleRateSpinner.setSelection(2);
                     break;
                 case 16000:
-                    frequence16K.setChecked(true);
+                    sampleRateSpinner.setSelection(1);
                     break;
                 case 8000:
-                    frequence8K.setChecked(true);
+                    sampleRateSpinner.setSelection(0);
                     break;
                 default:
                     break;
@@ -168,31 +220,32 @@ public class PointerDetailActivity extends AppCompatActivity implements PointerD
     protected void onDestroy()
     {
         super.onDestroy();
+        pointerBean = null;
         if (TextUtils.isEmpty(ipEditText.getText().toString()))
         {
             return;
         }
 
-        if (radioGroup.getCheckedRadioButtonId() == frequence8K.getId())
-        {
-            preferences.edit().putInt(UiConstants.AUDIO_SAMPLE_RATE, 8000);
-            preferences.edit().putInt(UiConstants.AUDIO_BUFFER_SIZE, 160);
-        }
-        else if (radioGroup.getCheckedRadioButtonId() == frequence16K.getId())
-        {
-            preferences.edit().putInt(UiConstants.AUDIO_SAMPLE_RATE, 16000);
-            preferences.edit().putInt(UiConstants.AUDIO_BUFFER_SIZE, 320);
-        }
-        else if (radioGroup.getCheckedRadioButtonId() == frequence44K.getId())
-        {
-            preferences.edit().putInt(UiConstants.AUDIO_SAMPLE_RATE, 44100);
-            preferences.edit().putInt(UiConstants.AUDIO_BUFFER_SIZE, 640);
-        }
-
-        preferences.edit().putBoolean(UiConstants.IS_SAVE_SEND_AUDIO, recordSendSwitch.isChecked());
-        preferences.edit().putBoolean(UiConstants.IS_SAVE_RECEIVED_AUDIO, recordRecSwitch.isChecked());
-        preferences.edit().putString(UiConstants.REMOTE_POINTER_IP, ipEditText.getText().toString());
-        preferences.edit().commit();
+//        if (radioGroup.getCheckedRadioButtonId() == frequence8K.getId())
+//        {
+//            preferences.edit().putInt(UiConstants.AUDIO_SAMPLE_RATE, 8000);
+//            preferences.edit().putInt(UiConstants.AUDIO_BUFFER_SIZE, 160);
+//        }
+//        else if (radioGroup.getCheckedRadioButtonId() == frequence16K.getId())
+//        {
+//            preferences.edit().putInt(UiConstants.AUDIO_SAMPLE_RATE, 16000);
+//            preferences.edit().putInt(UiConstants.AUDIO_BUFFER_SIZE, 320);
+//        }
+//        else if (radioGroup.getCheckedRadioButtonId() == frequence44K.getId())
+//        {
+//            preferences.edit().putInt(UiConstants.AUDIO_SAMPLE_RATE, 44100);
+//            preferences.edit().putInt(UiConstants.AUDIO_BUFFER_SIZE, 640);
+//        }
+//
+//        preferences.edit().putBoolean(UiConstants.IS_SAVE_SEND_AUDIO, recordSendSwitch.isChecked());
+//        preferences.edit().putBoolean(UiConstants.IS_SAVE_RECEIVED_AUDIO, recordRecSwitch.isChecked());
+//        preferences.edit().putString(UiConstants.REMOTE_POINTER_IP, ipEditText.getText().toString());
+//        preferences.edit().commit();
     }
 
 

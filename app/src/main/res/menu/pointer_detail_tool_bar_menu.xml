@@ -15,18 +15,18 @@
     <item
         android:id="@+id/action_edit"
         android:title="编辑"
-        android:icon="@mipmap/ic_setting"
-        app:showAsAction="never" />
+        android:icon="@mipmap/edit"
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_delete"
         android:title="删除"
-        android:icon="@mipmap/ic_setting"
-        app:showAsAction="never" />
+        android:icon="@mipmap/delete"
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_confirm"
         android:title="确认"
-        android:icon="@mipmap/ic_setting"
+        android:icon="@mipmap/confirm"
         android:visible="false"
         app:showAsAction="ifRoom" />
 
@@ -34,6 +34,6 @@
         android:id="@+id/action_cancel"
         android:title="取消"
         android:visible="false"
-        android:icon="@mipmap/ic_setting"
+        android:icon="@mipmap/cancel"
         app:showAsAction="ifRoom" />
 </menu>

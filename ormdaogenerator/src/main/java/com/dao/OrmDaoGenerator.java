@@ -38,7 +38,7 @@ public class OrmDaoGenerator
 
         // greenDAO 会自动根据实体类的属性值来创建表字段，并赋予默认值
         // 设置表中的字段：
-        note.addIdProperty();
+        note.addIdProperty().autoincrement();
         note.addDateProperty("createDate");
         note.addStringProperty("name");
         note.addStringProperty("ip").notNull();

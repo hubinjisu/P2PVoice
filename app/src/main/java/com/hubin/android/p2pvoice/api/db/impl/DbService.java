@@ -5,10 +5,11 @@ import com.hubin.android.p2pvoice.api.db.itf.IDbService;
 import com.hubin.android.p2pvoice.bean.dao.DaoSession;
 import com.hubin.android.p2pvoice.bean.dao.Pointer;
 import com.hubin.android.p2pvoice.bean.dao.PointerDao;
+import com.hubin.android.p2pvoice.utils.UiConstants;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import de.greenrobot.dao.query.Query;
 import de.greenrobot.dao.query.QueryBuilder;
 
 /**
@@ -22,7 +23,6 @@ public class DbService implements IDbService
     private static final String TAG = "DbService";
     private static DbService instance;
     private DaoSession daoSession;
-    private ArrayList<Pointer> pointers = new ArrayList<Pointer>();
 
     public static DbService getInstance()
     {
@@ -50,55 +50,54 @@ public class DbService implements IDbService
 
     private void initData()
     {
-        pointers = (ArrayList<Pointer>) getPointerDao().queryBuilder()
-                .orderAsc(PointerDao.Properties.CreateDate)
-                .list();
+        if (getPointer(UiConstants.DEFAULT_REMOTE_POINTER_IP) == null)
+        {
+            Pointer localPointer = new Pointer();
+            localPointer.setId(0L);
+            localPointer.setIp(UiConstants.DEFAULT_REMOTE_POINTER_IP);
+            localPointer.setPort(UiConstants.DEFAULT_AUDIO_PORT);
+            addPointer(localPointer);
+        }
     }
 
     @Override
     public List<Pointer> getAllPointers()
     {
-        return pointers;
+        Query query = getPointerDao().queryBuilder()
+                .orderAsc(PointerDao.Properties.CreateDate)
+                .build();
+        return query.list();
     }
 
     @Override
-    public Pointer getPointer(long id)
+    public Pointer getPointer(String ip)
     {
-        for (Pointer pointer : pointers)
+        // Query 类代表了一个可以被重复执行的查询
+        Query query = getPointerDao().queryBuilder()
+                .where(PointerDao.Properties.Ip.eq(ip))
+                .orderAsc(PointerDao.Properties.CreateDate)
+                .build();
+
+        // 查询结果以 List 返回
+        List<Pointer> notes = query.list();
+        if (notes != null && notes.size() > 0)
         {
-            if (pointer.getId().equals(id))
-            {
-                return pointer;
-            }
+            return notes.get(0);
         }
-        return null;
-//        // Query 类代表了一个可以被重复执行的查询
-//        Query query = getPointerDao().queryBuilder()
-//                .where(PointerDao.Properties.Id.eq(id))
-//                .orderAsc(PointerDao.Properties.CreateDate)
-//                .build();
-//
-//        // 查询结果以 List 返回
-//        List<Pointer> notes = query.list();
-//        if (notes != null && notes.size() > 0)
-//        {
-//            return notes.get(0);
-//        }
-//        else
-//        {
-//        }
+        else
+        {
+            return null;
+        }
     }
 
     @Override
-    public boolean addPointer(Pointer pointer)
+    public long addPointer(Pointer pointer)
     {
         if (pointer != null)
         {
-            getPointerDao().insert(pointer);
-            pointers.add(pointer);
-            return true;
+            return getPointerDao().insert(pointer);
         }
-        return false;
+        return -1;
     }
 
     @Override
@@ -107,7 +106,6 @@ public class DbService implements IDbService
         if (pointer != null)
         {
             getPointerDao().delete(pointer);
-            pointers.remove(pointer);
             return true;
 
         }
@@ -120,8 +118,6 @@ public class DbService implements IDbService
         if (pointer != null)
         {
             getPointerDao().update(pointer);
-            pointers.remove(pointer);
-            pointers.add(pointer);
             return true;
         }
         return false;

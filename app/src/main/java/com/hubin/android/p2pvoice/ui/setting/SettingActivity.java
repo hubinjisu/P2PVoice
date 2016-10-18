@@ -39,10 +39,10 @@ public class SettingActivity extends AppCompatActivity
         ipEditText = (EditText) findViewById(R.id.ip_edittext);
         recordSendSwitch = (Switch) findViewById(R.id.switch_send_record);
         recordRecSwitch = (Switch) findViewById(R.id.switch_received_record);
-        radioGroup = (RadioGroup) findViewById(R.id.radio_group);
-        frequence8K = (RadioButton) findViewById(R.id.f8k_radiobutton);
-        frequence16K = (RadioButton) findViewById(R.id.f16k_radiobutton);
-        frequence44K = (RadioButton) findViewById(R.id.f44k_radiobutton);
+//        radioGroup = (RadioGroup) findViewById(R.id.radio_group);
+//        frequence8K = (RadioButton) findViewById(R.id.f8k_radiobutton);
+//        frequence16K = (RadioButton) findViewById(R.id.f16k_radiobutton);
+//        frequence44K = (RadioButton) findViewById(R.id.f44k_radiobutton);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setTitle("Setting");//设置主标题
         mToolbar.setTitleTextColor(getResources().getColor(android.R.color.white));//设置主标题颜色

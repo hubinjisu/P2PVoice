@@ -122,15 +122,14 @@ public class PointerListPresenter implements PointerListContract.IPointerListPre
     {
         ArrayList<PointerListItem> pointerList = new ArrayList<PointerListItem>();
         List<Pointer> pointers = dbService.getAllPointers();
-        PointerListItem pointerItem = new PointerListItem();
-        pointerItem.getPointer().setIp(UiConstants.DEFAULT_REMOTE_POINTER_IP);
-        pointerItem.getPointer().setPort(UiConstants.DEFAULT_AUDIO_PORT);
-        pointerList.add(pointerItem);
+        PointerListItem pointerItem;
+//        pointerItem.getPointer().setIp(UiConstants.DEFAULT_REMOTE_POINTER_IP);
+//        pointerItem.getPointer().setPort(UiConstants.DEFAULT_AUDIO_PORT);
+//        pointerList.add(pointerItem);
         for (Pointer pointer : pointers)
         {
             pointerItem = new PointerListItem();
-            pointerItem.getPointer().setIp(pointer.getIp());
-            pointerItem.getPointer().setPort(pointer.getPort());
+            pointerItem.setPointer(pointer);
             pointerList.add(pointerItem);
         }
         return pointerList;

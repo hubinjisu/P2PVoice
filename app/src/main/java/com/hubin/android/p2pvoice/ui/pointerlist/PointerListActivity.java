@@ -13,7 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.hubin.android.p2pvoice.R;
-import com.hubin.android.p2pvoice.ui.setting.SettingActivity;
+import com.hubin.android.p2pvoice.ui.pointerdetail.PointerDetailActivity;
 import com.hubin.android.p2pvoice.utils.UiConstants;
 
 import it.gmariotti.recyclerview.adapter.SlideInRightAnimatorAdapter;
@@ -41,8 +41,18 @@ public class PointerListActivity extends AppCompatActivity implements PointerLis
         presenter = new PointerListPresenter(this);
         //初始化View
         initView();
-        //设置监听器
-        setListener();
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        initData();
+    }
+
+    private void initData()
+    {
+        listAdapter.updateList(presenter.getPointerList());
     }
 
     /**
@@ -64,7 +74,7 @@ public class PointerListActivity extends AppCompatActivity implements PointerLis
                 int menuItemId = item.getItemId();
                 if (menuItemId == R.id.action_item1)
                 {
-                    startActivity(new Intent(PointerListActivity.this, SettingActivity.class));
+                    startActivity(new Intent(PointerListActivity.this, PointerDetailActivity.class));
                 }
                 return true;
             }
@@ -78,7 +88,6 @@ public class PointerListActivity extends AppCompatActivity implements PointerLis
         SlideInRightAnimatorAdapter slideInRightAnimatorAdapter = new SlideInRightAnimatorAdapter(listAdapter, callListView);
         callListView.setAdapter(slideInRightAnimatorAdapter);
         callListView.setItemAnimator(new SlideInOutRightItemAnimator(callListView));
-        listAdapter.updateList(presenter.getPointerList());
     }
 
     @Override
@@ -117,21 +126,6 @@ public class PointerListActivity extends AppCompatActivity implements PointerLis
         return preferences.getBoolean(UiConstants.IS_SAVE_SEND_AUDIO, false);
     }
 
-
-    private void setListener()
-    {
-//        playButton.setOnClickListener(this);
-//        finishButton.setOnClickListener(this);
-//        playRecButton.setOnClickListener(this);
-//        finishRecButton.setOnClickListener(this);
-//
-//        startSendButton.setOnClickListener(this);
-//        stopSendButton.setOnClickListener(this);
-//        startReceButton.setOnClickListener(this);
-//        stopReceButton.setOnClickListener(this);
-//        stopUDPButton.setOnClickListener(this);
-    }
-
     @Override
     protected void onDestroy()
     {
@@ -139,98 +133,6 @@ public class PointerListActivity extends AppCompatActivity implements PointerLis
         super.onDestroy();
     }
 
-//    @Override
-//    public void onClick(View v)
-//    {
-//        switch (v.getId())
-//        {
-////            case R.id.start_button:
-////                // 开始录制
-////                Log.i(TAG, "start_button::");
-////                recordTask = new RecordTask();
-////                recordTask.execute();
-////                startButton.setEnabled(false);
-////                stopButton.setEnabled(true);
-////                break;
-////            case R.id.stop_button:
-////                // 结束录制
-////                Log.i(TAG, "stop_button::");
-////                isRecording = false;
-////                startButton.setEnabled(true);
-////                stopButton.setEnabled(false);
-////                break;
-//            case R.id.play_button:
-//                // 开始播放
-//                Log.i(TAG, "play_button::");
-//                presenter.startPlaySavedSentAudio();
-//                finishButton.setEnabled(true);
-//                playButton.setEnabled(false);
-//                break;
-//            case R.id.finish_button:
-//                // 停止播放
-//                Log.i(TAG, "finish_button::");
-//                presenter.stopPlaySavedSentAudio();
-//                playButton.setEnabled(true);
-//                finishButton.setEnabled(false);
-//                break;
-//            case R.id.play_rec_button:
-//                // 开始播放rece
-//                Log.i(TAG, "play_button::");
-//                presenter.startPlaySavedRecievedAudio();
-//                finishRecButton.setEnabled(true);
-//                playRecButton.setEnabled(false);
-//                break;
-//            case R.id.finish_rec_button:
-//                // 停止播放rece
-//                Log.i(TAG, "finish_button::");
-//                presenter.stopPlaySavedRecievedAudio();
-//                playRecButton.setEnabled(true);
-//                finishRecButton.setEnabled(false);
-//                break;
-//            case R.id.start_send_button:
-//                // 开始发送数据
-//                Log.i(TAG, "start_send_button::");
-//
-//                presenter.startSendAudioData();
-//
-//                stopSendButton.setEnabled(true);
-//                startSendButton.setEnabled(false);
-//                break;
-//            case R.id.stop_send_button:
-//                // 结束发送数据
-//                Log.i(TAG, "stop_send_button::");
-//                presenter.stopSendAudioData();
-//                stopSendButton.setEnabled(false);
-//                startSendButton.setEnabled(true);
-//
-//                break;
-//            case R.id.start_rece_button:
-//                // 开始接收
-//                Log.i(TAG, "start_rece_button::");
-//                presenter.startReceiveAudioData();
-//
-//                stopReceButton.setEnabled(true);
-//                startReceButton.setEnabled(false);
-//                break;
-//            case R.id.stop_rece_button:
-//                // 结束接收
-//                Log.i(TAG, "stop_rece_button::");
-//                presenter.stopReceiveAudioData();
-//                stopReceButton.setEnabled(false);
-//                startReceButton.setEnabled(true);
-//                break;
-//
-//            case R.id.stop_udp_button:
-//                Log.i(TAG, "stop_udp_button");
-//                presenter.stopSocket();
-//                stopUDPButton.setEnabled(false);
-//                stopUDPButton.setText("Socket已停止！");
-//                break;
-//
-//            default:
-//                break;
-//        }
-//    }
 
     class VerticalSpaceItemDecoration extends RecyclerView.ItemDecoration
     {

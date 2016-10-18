@@ -1,22 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        app:navigationIcon="@mipmap/back"
-        android:navigationIcon="@mipmap/back"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="My Pointer"/>
+        android:navigationIcon="@mipmap/back"
+        app:navigationIcon="@mipmap/back"/>
 
-    <RadioGroup
+    <!--<RadioGroup
         android:id="@+id/radio_group"
 
         android:layout_width="wrap_content"
@@ -52,24 +49,100 @@
 
         </RadioButton>
 
-    </RadioGroup>
+    </RadioGroup>-->
 
-    <Switch
-        android:id="@+id/switch_send_record"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:text="打开本地录音文件保存" />
-    <EditText
-        android:id="@+id/ip_edittext"
-        android:layout_width="200dp"
-        android:hint="请输入对端IP地址"
-        android:layout_height="wrap_content" />
 
-    <Switch
-        android:id="@+id/switch_received_record"
-        android:layout_width="wrap_content"
-        android:padding="20dp"
-        android:layout_height="wrap_content"
-        android:text="打开接收录音文件保存" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="IP地址"/>
+
+        <EditText
+            android:id="@+id/ip_edittext"
+            android:layout_alignParentRight="true"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:hint="请输入对端IP地址"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="端口号"/>
+
+        <EditText
+            android:id="@+id/port_edittext"
+            android:layout_alignParentRight="true"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:hint="请输入对端端口号"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="@string/audio_sample_rate"/>
+
+        <Spinner
+            android:id="@+id/sample_rate_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:entries="@array/sample_rate"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Switch
+            android:id="@+id/switch_send_record"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="发送录音文件保存路径"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="接收录音文件保存路径"/>
+
+        <Switch
+            android:id="@+id/switch_received_record"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
+
 </LinearLayout>

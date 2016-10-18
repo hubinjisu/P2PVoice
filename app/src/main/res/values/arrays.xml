@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sample_rate">
+        <item>8000 FPS</item>
+        <item>16000 FPS</item>
+        <item>44100 FPS</item>
+    </string-array>
+</resources>

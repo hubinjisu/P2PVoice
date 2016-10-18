@@ -15,7 +15,7 @@
     <item
         android:id="@+id/action_item1"
         android:title=""
-        android:icon="@mipmap/ic_setting"
+        android:icon="@mipmap/add"
         app:showAsAction="ifRoom" />
 
     <!--<item

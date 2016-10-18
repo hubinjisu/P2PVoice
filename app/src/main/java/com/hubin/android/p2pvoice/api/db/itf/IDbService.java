@@ -13,8 +13,8 @@ import java.util.List;
 public interface IDbService
 {
     List<Pointer> getAllPointers();
-    Pointer getPointer(long id);
-    boolean addPointer(Pointer pointer);
+    Pointer getPointer(String ip);
+    long addPointer(Pointer pointer);
     boolean deletePointer(Pointer pointer);
     boolean updatePointer(Pointer pointer);
 }
