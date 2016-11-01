@@ -1,6 +1,6 @@
-package com.hubin.android.p2pvoice.api.voice.impl;
+package com.hubin.android.p2pvoice.api.audio.impl;
 
-import com.hubin.android.p2pvoice.api.voice.itf.IP2pVoiceService;
+import com.hubin.android.p2pvoice.api.audio.itf.IP2pVoiceService;
 
 /**
  * Created by tester on 16-7-1.
