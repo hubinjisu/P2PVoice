@@ -1,1 +1,1 @@
-include ':app', ':ormdaogenerator'
+include ':app'

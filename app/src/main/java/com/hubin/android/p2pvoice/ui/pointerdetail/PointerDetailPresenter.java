@@ -1,7 +1,7 @@
 package com.hubin.android.p2pvoice.ui.pointerdetail;
 
 import com.hubin.android.p2pvoice.api.db.impl.DbService;
-import com.hubin.android.p2pvoice.bean.dao.Pointer;
+import com.hubin.android.p2pvoice.bean.Pointer;
 
 /**
  * Description:

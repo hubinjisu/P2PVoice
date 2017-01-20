@@ -1,6 +1,5 @@
 package com.hubin.android.p2pvoice.bean;
 
-import com.hubin.android.p2pvoice.bean.dao.Pointer;
 import com.hubin.android.p2pvoice.utils.UiConstants;
 
 /**

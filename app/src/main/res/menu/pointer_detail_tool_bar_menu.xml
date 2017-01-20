@@ -14,7 +14,7 @@
 
     <item
         android:id="@+id/action_edit"
-        android:title="编辑"
+        android:title="@string/menu_edit"
         android:icon="@mipmap/edit"
         app:showAsAction="ifRoom" />
 

@@ -3,12 +3,12 @@ package com.hubin.android.p2pvoice;
 import android.app.Application;
 import android.app.KeyguardManager;
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.media.AudioManager;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.util.Log;
 
+import com.hubin.android.p2pvoice.api.db.impl.DBHelper;
 import com.hubin.android.p2pvoice.bean.dao.DaoMaster;
 
 /**
@@ -24,7 +24,6 @@ public class UiApplication extends Application
     private static KeyguardManager keyguardManager;
     private static PowerManager powerManager;
 
-    private static SQLiteDatabase db;
     private static DaoMaster daoMaster;
 
     public UiApplication()
@@ -90,13 +89,8 @@ public class UiApplication extends Application
     public static DaoMaster getDaoMaster() {
         if (daoMaster == null)
         {
-            // 通过 DaoMaster 的内部类 DevOpenHelper，你可以得到一个便利的 SQLiteOpenHelper 对象。
-            // 注意：默认的 DaoMaster.DevOpenHelper 会在数据库升级时，删除所有的表，意味着这将导致数据的丢失。
-            // 所以，在正式的项目中，应该做一层封装，来实现数据库的安全升级。
-            DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(getInstance(), "pointers-db", null);
-            db = helper.getWritableDatabase();
             // 注意：该数据库连接属于 DaoMaster，所以多个 Session 指的是相同的数据库连接。
-            daoMaster = new DaoMaster(db);
+            daoMaster = new DaoMaster(DBHelper.getInstance(getInstance()).getWritableDb());
         }
         return daoMaster;
     }

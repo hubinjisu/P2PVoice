@@ -14,7 +14,7 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.hubin.android.p2pvoice.R;
-import com.hubin.android.p2pvoice.bean.dao.Pointer;
+import com.hubin.android.p2pvoice.bean.Pointer;
 import com.hubin.android.p2pvoice.utils.UiConstants;
 
 /**

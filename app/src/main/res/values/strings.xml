@@ -16,5 +16,6 @@
     <string name="more">更多</string>
     <string name="detail">详情</string>
     <string name="audio_sample_rate">音频采样率</string>
+    <string name="menu_edit">编辑</string>
 
 </resources>

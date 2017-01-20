@@ -1,6 +1,6 @@
 package com.hubin.android.p2pvoice.api.db.itf;
 
-import com.hubin.android.p2pvoice.bean.dao.Pointer;
+import com.hubin.android.p2pvoice.bean.Pointer;
 
 import java.util.List;
 

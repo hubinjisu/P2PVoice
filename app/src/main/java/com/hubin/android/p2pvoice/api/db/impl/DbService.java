@@ -2,15 +2,14 @@ package com.hubin.android.p2pvoice.api.db.impl;
 
 import com.hubin.android.p2pvoice.UiApplication;
 import com.hubin.android.p2pvoice.api.db.itf.IDbService;
+import com.hubin.android.p2pvoice.bean.Pointer;
 import com.hubin.android.p2pvoice.bean.dao.DaoSession;
-import com.hubin.android.p2pvoice.bean.dao.Pointer;
 import com.hubin.android.p2pvoice.bean.dao.PointerDao;
 import com.hubin.android.p2pvoice.utils.UiConstants;
 
-import java.util.List;
+import org.greenrobot.greendao.query.Query;
 
-import de.greenrobot.dao.query.Query;
-import de.greenrobot.dao.query.QueryBuilder;
+import java.util.List;
 
 /**
  * Description:
@@ -22,7 +21,7 @@ public class DbService implements IDbService
 {
     private static final String TAG = "DbService";
     private static DbService instance;
-    private DaoSession daoSession;
+    private PointerDao pointerDao;
 
     public static DbService getInstance()
     {
@@ -35,17 +34,9 @@ public class DbService implements IDbService
 
     private DbService()
     {
-        daoSession = UiApplication.getDaoMaster().newSession();
-        // 在 QueryBuilder 类中内置两个 Flag 用于方便输出执行的 SQL 语句与传递参数的值
-        QueryBuilder.LOG_SQL = true;
-        QueryBuilder.LOG_VALUES = true;
+        DaoSession daoSession = UiApplication.getDaoMaster().newSession();
+        pointerDao = daoSession.getPointerDao();
         initData();
-    }
-
-    // 获取 NoteDao 对象
-    private PointerDao getPointerDao()
-    {
-        return daoSession.getPointerDao();
     }
 
     private void initData()
@@ -63,7 +54,7 @@ public class DbService implements IDbService
     @Override
     public List<Pointer> getAllPointers()
     {
-        Query query = getPointerDao().queryBuilder()
+        Query query = pointerDao.queryBuilder()
                 .orderAsc(PointerDao.Properties.CreateDate)
                 .build();
         return query.list();
@@ -73,7 +64,7 @@ public class DbService implements IDbService
     public Pointer getPointer(String ip)
     {
         // Query 类代表了一个可以被重复执行的查询
-        Query query = getPointerDao().queryBuilder()
+        Query query = pointerDao.queryBuilder()
                 .where(PointerDao.Properties.Ip.eq(ip))
                 .orderAsc(PointerDao.Properties.CreateDate)
                 .build();
@@ -95,7 +86,7 @@ public class DbService implements IDbService
     {
         if (pointer != null)
         {
-            return getPointerDao().insert(pointer);
+            return pointerDao.insert(pointer);
         }
         return -1;
     }
@@ -105,7 +96,7 @@ public class DbService implements IDbService
     {
         if (pointer != null)
         {
-            getPointerDao().delete(pointer);
+            pointerDao.delete(pointer);
             return true;
 
         }
@@ -117,7 +108,7 @@ public class DbService implements IDbService
     {
         if (pointer != null)
         {
-            getPointerDao().update(pointer);
+            pointerDao.update(pointer);
             return true;
         }
         return false;

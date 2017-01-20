@@ -8,13 +8,13 @@ import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
 
-import com.hubin.android.p2pvoice.api.db.impl.DbService;
 import com.hubin.android.p2pvoice.api.audio.impl.P2pVoiceServiceImpl;
 import com.hubin.android.p2pvoice.api.audio.impl.UDPReceivedThread;
 import com.hubin.android.p2pvoice.api.audio.impl.UDPSendThread;
 import com.hubin.android.p2pvoice.api.audio.itf.IP2pVoiceService;
+import com.hubin.android.p2pvoice.api.db.impl.DbService;
+import com.hubin.android.p2pvoice.bean.Pointer;
 import com.hubin.android.p2pvoice.bean.PointerListItem;
-import com.hubin.android.p2pvoice.bean.dao.Pointer;
 import com.hubin.android.p2pvoice.utils.UiConstants;
 
 import java.io.BufferedInputStream;

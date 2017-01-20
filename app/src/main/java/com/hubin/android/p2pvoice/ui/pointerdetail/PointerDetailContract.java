@@ -2,7 +2,7 @@ package com.hubin.android.p2pvoice.ui.pointerdetail;
 
 import com.hubin.android.p2pvoice.base.BasePresenter;
 import com.hubin.android.p2pvoice.base.IBaseView;
-import com.hubin.android.p2pvoice.bean.dao.Pointer;
+import com.hubin.android.p2pvoice.bean.Pointer;
 
 /**
  * Created by tester on 16-7-17.
